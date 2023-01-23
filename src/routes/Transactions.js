@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { getEntrada , saida} from "../controllers/postTransaction.js"
-import { entrada} from "../controllers/postTransaction.js"
+import { entrada } from "../controllers/postTransaction.js"
 import validateSchema from "../middlewares/validateSchema.js"
 import { entradaSchema } from "../schemas/entradaSchema.js"
 

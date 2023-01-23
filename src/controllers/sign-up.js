@@ -8,11 +8,6 @@ import bcrypt from "bcrypt"
     const { nome , email, password} = req.body
 
 
-    //const { error } = usuarioSchema.validate({ nome, email, password, confirmPassword })
-
-    //if (error) {
-      //const errorMessages = error.details.map(err => err.message)
-      //return res.status(422).send(errorMessages)}
 
     const passwordHashed = bcrypt.hashSync(password, 10)
 

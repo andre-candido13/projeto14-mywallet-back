@@ -9,7 +9,10 @@ let hora = dayjs().format("DD/MM")
 
 export const entrada = async (req, res) => {
 
-    const { tipo, valor, descricao } = req.body
+    
+    const value = res.locals.value
+
+    const _id= res.locals.id
 
     const { authorization } = req.headers
 
@@ -25,12 +28,8 @@ export const entrada = async (req, res) => {
         if (!checkUser) return res.status(401).send("Você não possui autorização")
 
 
-        const usuario = await db.collection("sessoes").insertOne({
-            idUser: checkUser._id,
-            valor: valor,
-            tipo: "entrada",
-            descricao: descricao,
-            dia: hora,
+        const usuario = await db.collection("carteira").insertOne({
+            valor:value.valor, descricao:value.descricao, type:"entrada", IdUser:_id,  data: hora
         })
 
         res.status(201).send("Entrada cadastrada")
@@ -43,7 +42,10 @@ export const entrada = async (req, res) => {
 }
 
 export const saida = async (req, res) => {
-    const { tipo, valor, descricao } = req.body
+
+    const value = res.locals.value
+
+    const _id= res.locals.id
 
     const { authorization } = req.headers
 
@@ -59,11 +61,7 @@ export const saida = async (req, res) => {
         if (!checkUser) return res.status(401).send("Você não tem autorização para cadastrar uma nova saída")
 
         await db.collection("carteira").insertOne({
-            idUser: checkUser._id,
-            valor: valor,
-            tipo: "saida",
-            descricao: descricao,
-            dia: hora,
+            valor:value.valor, descricao:value.descricao, type:"saida", IdUser:_id,  data: hora
         })
 
         res.status(201).send("Saída cadastrada")
@@ -77,6 +75,8 @@ export const saida = async (req, res) => {
 
 
 export const getEntrada = async (req, res) => {
+
+    const _id = res.locals.id
     const { authorization } = req.headers
 
     const token = authorization?.replace("Bearer ", '')
@@ -85,17 +85,15 @@ export const getEntrada = async (req, res) => {
 
         if (!token) return res.status(422).send("Informe o token!")
 
-
-
         const checkUser = await db.collection("sessoes").findOne({ token })
 
         if (!checkUser) return res.status(401).send("Você não tem autorização para esse tipo de acesso")
 
-        const carteira = await db.collection("carteira").find({ idUser: checkUser._id }).toArray()
+        const carteira = await db.collection("carteira").find({ IdUser: _id }).toArray()
 
         if (!carteira) return res.sendStatus(401)
 
-        return res.send(carteira)
+        return res.send(carteira) 
 
 
     } catch (err) {
@@ -104,3 +102,5 @@ export const getEntrada = async (req, res) => {
 
     }
 }
+
+//atualizadoo
