@@ -12,20 +12,20 @@ export const entrada = async (req, res) => {
     
     const value = res.locals.value
 
-    const _id= res.locals.id
+    const _id = res.locals.id
 
-    const { authorization } = req.headers
+    //const { authorization } = req.headers
 
-    const token = authorization?.replace("Bearer", "")
+    //const token = authorization?.replace("Bearer", "")
 
     try {
 
-        if (!token) return res.status(422).send("Por favor, informe o token!")
+       // if (!token) return res.status(422).send("Por favor, informe o token!")
 
 
-        const checkUser = await db.collection("sessoes").findOne({ token })
+       // const checkUser = await db.collection("sessoes").findOne({ token })
 
-        if (!checkUser) return res.status(401).send("Você não possui autorização")
+        //if (!checkUser) return res.status(401).send("Você não possui autorização")
 
 
         const usuario = await db.collection("carteira").insertOne({
@@ -45,7 +45,7 @@ export const saida = async (req, res) => {
 
     const value = res.locals.value
 
-    const _id= res.locals.id
+    const _id = res.locals.id
 
     const { authorization } = req.headers
 
@@ -103,4 +103,4 @@ export const getEntrada = async (req, res) => {
     }
 }
 
-//atualizadoo
+//atualizadooooo
